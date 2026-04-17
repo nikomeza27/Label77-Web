@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import {
-  Coffee,
-  Clock3,
-  Droplet,
   Briefcase,
+  Clock3,
+  Coffee,
+  Droplet,
   HardHat,
   KeyRound,
   MapPin,
@@ -18,6 +18,7 @@ import {
 
 const whatsappNumber = "50688888888";
 const whatsappMessage = "Hola, quiero informacion sobre productos personalizados.";
+const imagePlaceholder = "Placeholder";
 
 const navItems = [
   { label: "Inicio", href: "#inicio" },
@@ -27,67 +28,270 @@ const navItems = [
   { label: "Contacto", href: "#contacto" },
 ];
 
-const products = [
-  { name: "Camisas", description: "Poliester y algodon sublimables", icon: Shirt },
-  { name: "Suteres", description: "Personalizados para regalo, marca o equipo", icon: Shirt },
-  { name: "Tazas", description: "Ceramicas de 11oz y 15oz", icon: Coffee },
-  { name: "Botellas", description: "Termos y botellas deportivas", icon: Droplet },
-  { name: "Gorras", description: "Variedad de estilos y colores", icon: HardHat },
-  { name: "Llaveros", description: "Acrilicos y metalicos", icon: KeyRound },
-  { name: "Bolsos y mochilas", description: "Ideales para personalizar con logos o nombres", icon: Briefcase },
-  { name: "Almohadas", description: "Detalles decorativos con tus disenos favoritos", icon: Package },
-  { name: "Mousepad", description: "Superficie personalizada para oficina o gaming", icon: Monitor },
-];
-
-const productPlaceholders = {
-  Camisas: [
-    "Placeholder camiseta blanca sublimable",
-    "Placeholder camiseta deportiva personalizada",
-    "Placeholder camiseta con logo empresarial",
-  ],
-  Suteres: [
-    "Placeholder suter clasico personalizado",
-    "Placeholder hoodie con nombre o logo",
-    "Placeholder suter para equipo o grupo",
-  ],
-  Tazas: [
-    "Placeholder taza 11oz personalizada",
-    "Placeholder taza magica con diseno",
-    "Placeholder taza para regalo",
-  ],
-  Botellas: [
-    "Placeholder botella deportiva sublimable",
-    "Placeholder termo personalizado",
-    "Placeholder botella promocional",
-  ],
-  Gorras: [
-    "Placeholder gorra clasica personalizada",
-    "Placeholder gorra para evento",
-    "Placeholder gorra con branding",
-  ],
-  Llaveros: [
-    "Placeholder llavero acrilico",
-    "Placeholder llavero metalico",
-    "Placeholder llavero recuerdo",
-  ],
-  "Bolsos y mochilas": [
-    "Placeholder bolso de tela personalizado",
-    "Placeholder mochila escolar con nombre",
-    "Placeholder bolso promocional para negocio",
-  ],
-  Almohadas: [
-    "Placeholder almohada decorativa",
-    "Placeholder cojin con foto personalizada",
-    "Placeholder almohada para regalo especial",
-  ],
-  Mousepad: [
-    "Placeholder mousepad rectangular",
-    "Placeholder mousepad gamer personalizado",
-    "Placeholder mousepad corporativo",
-  ],
+const productIcons = {
+  camisas: Shirt,
+  suteres: Shirt,
+  tazas: Coffee,
+  botellas: Droplet,
+  gorras: HardHat,
+  llaveros: KeyRound,
+  bolsos: Briefcase,
+  almohadas: Package,
+  mousepad: Monitor,
 };
 
-const gallery = [
+const productImageModules = import.meta.glob("./assets/products/*/*.{png,jpg,jpeg,webp,avif,svg}", {
+  eager: true,
+  import: "default",
+});
+
+const galleryImageModules = import.meta.glob("./assets/examples/*.{png,jpg,jpeg,webp,avif,svg}", {
+  eager: true,
+  import: "default",
+});
+
+function humanizeSlug(value) {
+  return value
+    .replace(/\.[^.]+$/, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function getPathSegments(path) {
+  return path.split("/");
+}
+
+// Edita aqui cada categoria y sus productos.
+// Para cada item puedes cambiar: name, description e image.
+const fallbackProductCatalog = [
+  {
+    id: "camisas",
+    name: "Camisas",
+    description: "Poliester y algodon sublimables",
+    icon: "camisas",
+    items: [
+      {
+        name: "Placeholder camiseta blanca sublimable",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder camiseta deportiva personalizada",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder camiseta con logo empresarial",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+  {
+    id: "suteres",
+    name: "Suteres",
+    description: "Personalizados para regalo, marca o equipo",
+    icon: "suteres",
+    items: [
+      {
+        name: "Placeholder suter clasico personalizado",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder hoodie con nombre o logo",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder suter para equipo o grupo",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+  {
+    id: "tazas",
+    name: "Tazas",
+    description: "Ceramicas de 11oz y 15oz",
+    icon: "tazas",
+    items: [
+      {
+        name: "Placeholder taza 11oz personalizada",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder taza magica con diseno",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder taza para regalo",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+  {
+    id: "botellas",
+    name: "Botellas",
+    description: "Termos y botellas deportivas",
+    icon: "botellas",
+    items: [
+      {
+        name: "Placeholder botella deportiva sublimable",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder termo personalizado",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder botella promocional",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+  {
+    id: "gorras",
+    name: "Gorras",
+    description: "Variedad de estilos y colores",
+    icon: "gorras",
+    items: [
+      {
+        name: "gorra clasica personalizada",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: "",
+
+      },
+      {
+        name: "Placeholder gorra clasica personalizada",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder gorra clasica personalizada",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder gorra clasica personalizada",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder gorra para evento",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder gorra con branding",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+  {
+    id: "llaveros",
+    name: "Llaveros",
+    description: "Acrilicos y metalicos",
+    icon: "llaveros",
+    items: [
+      {
+        name: "Placeholder llavero acrilico",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder llavero metalico",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder llavero recuerdo",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+  {
+    id: "bolsos",
+    name: "Bolsos y mochilas",
+    description: "Ideales para personalizar con logos o nombres",
+    icon: "bolsos",
+    items: [
+      {
+        name: "Placeholder bolso de tela personalizado",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder mochila escolar con nombre",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder bolso promocional para negocio",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+  {
+    id: "almohadas",
+    name: "Almohadas",
+    description: "Detalles decorativos con tus disenos favoritos",
+    icon: "almohadas",
+    items: [
+      {
+        name: "Placeholder almohada decorativa",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder cojin con foto personalizada",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder almohada para regalo especial",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+  {
+    id: "mousepad",
+    name: "Mousepad",
+    description: "Superficie personalizada para oficina o gaming",
+    icon: "mousepad",
+    items: [
+      {
+        name: "Placeholder mousepad rectangular",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder mousepad gamer personalizado",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+      {
+        name: "Placeholder mousepad corporativo",
+        description: "Espacio listo para imagen, nombre del producto y detalles.",
+        image: imagePlaceholder,
+      },
+    ],
+  },
+];
+
+const fallbackGallery = [
   { type: "Taza", description: "Diseno personalizado", icon: "TZ" },
   { type: "Camisa", description: "Logo empresarial", icon: "CM" },
   { type: "Gorra", description: "Evento deportivo", icon: "GR" },
@@ -95,6 +299,56 @@ const gallery = [
   { type: "Llavero", description: "Recuerdo especial", icon: "LL" },
   { type: "Taza", description: "Cumpleanos", icon: "TZ" },
 ];
+
+const productCatalog = fallbackProductCatalog.map((category) => {
+  const dynamicItems = Object.entries(productImageModules)
+    .filter(([path]) => {
+      const segments = getPathSegments(path);
+      return segments[segments.length - 2] === category.id;
+    })
+    .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+    .map(([path, image]) => {
+      const segments = getPathSegments(path);
+      const fileName = segments[segments.length - 1];
+      const readableName = humanizeSlug(fileName);
+
+      return {
+        name: readableName,
+        description: category.description,
+        image,
+      };
+    });
+
+  if (dynamicItems.length === 0) {
+    return category;
+  }
+
+  return {
+    ...category,
+    items: dynamicItems,
+  };
+});
+
+const gallery = (() => {
+  const dynamicGallery = Object.entries(galleryImageModules)
+    .sort(([pathA], [pathB]) => pathA.localeCompare(pathB))
+    .map(([path, image]) => {
+      const segments = getPathSegments(path);
+      const fileName = segments[segments.length - 1];
+
+      return {
+        type: "Ejemplo",
+        description: humanizeSlug(fileName),
+        image,
+      };
+    });
+
+  if (dynamicGallery.length > 0) {
+    return dynamicGallery;
+  }
+
+  return fallbackGallery;
+})();
 
 const steps = [
   {
@@ -148,15 +402,23 @@ const socialLinks = [
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(products[0].name);
+  const [selectedProductId, setSelectedProductId] = useState(productCatalog[0].id);
+  const [selectedItemKey, setSelectedItemKey] = useState(
+    `${productCatalog[0].id}-0-${productCatalog[0].items[0]?.name ?? ""}`
+  );
+  const [selectedGalleryItem, setSelectedGalleryItem] = useState(null);
 
   const whatsappUrl = useMemo(
-    () =>
-      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
+    () => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
     []
   );
 
-  const selectedPlaceholders = productPlaceholders[selectedProduct] ?? [];
+  const selectedProduct =
+    productCatalog.find((category) => category.id === selectedProductId) ?? productCatalog[0];
+  const selectedItem =
+    selectedProduct.items.find(
+      (item, index) => `${selectedProduct.id}-${index}-${item.name}` === selectedItemKey
+    ) ?? selectedProduct.items[0];
 
   return (
     <>
@@ -249,18 +511,16 @@ function App() {
                   <div className="hero-gradient" />
                   <div className="hero-card-content">
                     <div className="hero-mockup-grid">
-                      {products.slice(0, 4).map((product) => {
-                        return (
-                          <div key={product.name} className="hero-mockup">
-                            <div className="mockup-inner">
-                              <div className="mockup-image-placeholder">
-                                <span className="mockup-placeholder-tag">Imagen</span>
-                                <span className="mockup-placeholder-name">{product.name}</span>
-                              </div>
+                      {productCatalog.slice(0, 4).map((product) => (
+                        <div key={product.name} className="hero-mockup">
+                          <div className="mockup-inner">
+                            <div className="mockup-image-placeholder">
+                              <span className="mockup-placeholder-tag">Imagen</span>
+                              <span className="mockup-placeholder-name">{product.name}</span>
                             </div>
                           </div>
-                        );
-                      })}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -280,15 +540,18 @@ function App() {
             </div>
 
             <div className="products-grid">
-              {products.map((product) => {
-                const Icon = product.icon;
-                const isActive = selectedProduct === product.name;
+              {productCatalog.map((product) => {
+                const Icon = productIcons[product.icon];
+                const isActive = selectedProductId === product.id;
                 return (
                   <button
                     key={product.name}
                     type="button"
                     className={`card product-card product-filter${isActive ? " is-active" : ""}`}
-                    onClick={() => setSelectedProduct(product.name)}
+                    onClick={() => {
+                      setSelectedProductId(product.id);
+                      setSelectedItemKey(`${product.id}-0-${product.items[0]?.name ?? ""}`);
+                    }}
                     aria-pressed={isActive}
                   >
                     <div className="product-icon">
@@ -304,7 +567,7 @@ function App() {
             <div className="product-results">
               <div className="product-results-header">
                 <p className="product-results-kicker">Categoria seleccionada</p>
-                <h3>{selectedProduct}</h3>
+                <h3>{selectedProduct.name}</h3>
                 <p className="product-results-copy">
                   Aqui puedes mostrar los productos que manejas en esta categoria. Por
                   ahora deje placeholders para que luego pongamos fotos o nombres reales.
@@ -312,12 +575,24 @@ function App() {
               </div>
 
               <div className="product-placeholder-grid">
-                {selectedPlaceholders.map((item) => (
-                  <article key={item} className="product-placeholder-card">
-                    <div className="product-placeholder-media">Placeholder</div>
-                    <div className="product-placeholder-body">
-                      <h4>{item}</h4>
-                      <p>Espacio listo para imagen, nombre del producto y detalles.</p>
+                {selectedProduct.items.map((item, index) => (
+                  <article
+                    key={`${selectedProduct.id}-${index}-${item.name}`}
+                    className={`product-placeholder-card product-image-card${
+                      selectedItemKey === `${selectedProduct.id}-${index}-${item.name}` ? " is-active" : ""
+                    }`}
+                    onMouseEnter={() => setSelectedItemKey(`${selectedProduct.id}-${index}-${item.name}`)}
+                  >
+                    <div className="product-placeholder-media">
+                      {item.image && item.image !== imagePlaceholder ? (
+                        <img src={item.image} alt={item.name} className="product-placeholder-img" />
+                      ) : (
+                        <span className="product-placeholder-text">{imagePlaceholder}</span>
+                      )}
+                      <div className="product-image-info">
+                        <h4>{item.name}</h4>
+                        <p>{item.description}</p>
+                      </div>
                     </div>
                   </article>
                 ))}
@@ -339,15 +614,25 @@ function App() {
 
             <div className="gallery-grid">
               {gallery.map((item, index) => (
-                <article key={`${item.type}-${index}`} className="gallery-card">
-                  <div className="gallery-backdrop" />
-                  <div className="gallery-center">
-                    <div className="gallery-badge">{item.icon}</div>
-                    <p className="gallery-title">{item.type}</p>
-                    <p className="gallery-text">{item.description}</p>
-                  </div>
-                  <div className="gallery-overlay">Ver ejemplo</div>
-                </article>
+                <button
+                  key={`${item.type}-${index}`}
+                  type="button"
+                  className="gallery-card"
+                  onClick={() => setSelectedGalleryItem(item)}
+                  aria-label={`Ver imagen grande de ${item.description}`}
+                >
+                  {item.image ? (
+                    <img src={item.image} alt={item.description} className="gallery-image" />
+                  ) : (
+                    <div className="gallery-backdrop" />
+                  )}
+                  {!item.image ? (
+                    <div className="gallery-center">
+                      <div className="gallery-badge">{item.icon}</div>
+                    </div>
+                  ) : null}
+                  <div className="gallery-overlay">Ver</div>
+                </button>
               ))}
             </div>
           </div>
@@ -461,6 +746,32 @@ function App() {
         </div>
       </footer>
 
+      {selectedGalleryItem ? (
+        <div
+          className="gallery-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Vista ampliada del ejemplo"
+          onClick={() => setSelectedGalleryItem(null)}
+        >
+          <div className="gallery-modal-dialog" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className="gallery-modal-close"
+              onClick={() => setSelectedGalleryItem(null)}
+              aria-label="Cerrar vista ampliada"
+            >
+              <X size={22} />
+            </button>
+            <img
+              src={selectedGalleryItem.image}
+              alt={selectedGalleryItem.description}
+              className="gallery-modal-image"
+            />
+          </div>
+        </div>
+      ) : null}
+
       <a
         className="whatsapp-fab"
         href={whatsappUrl}
@@ -475,3 +786,8 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
