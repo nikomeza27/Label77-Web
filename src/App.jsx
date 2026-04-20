@@ -15,6 +15,8 @@ import {
   Shirt,
   X,
 } from "lucide-react";
+import headerLogo from "./assets/logo/label77-header-cropped.png";
+import heroExampleImage from "./assets/logo/WhatsApp Image 2026-04-19 at 5.14.53 PM.jpeg";
 
 const whatsappNumber = "50688888888";
 const whatsappMessage = "Hola, quiero informacion sobre productos personalizados.";
@@ -426,10 +428,7 @@ function App() {
         <div className="container">
           <div className="header-row">
             <a href="#inicio" className="brand">
-              <span className="brand-title">
-                Label<span>77</span>
-              </span>
-              <span className="brand-subtitle">Costa Rica</span>
+              <img src={headerLogo} alt="Label77 Costa Rica" className="brand-logo" />
             </a>
 
             <nav className="desktop-nav" aria-label="Principal">
@@ -510,17 +509,12 @@ function App() {
                 <div className="hero-card">
                   <div className="hero-gradient" />
                   <div className="hero-card-content">
-                    <div className="hero-mockup-grid">
-                      {productCatalog.slice(0, 4).map((product) => (
-                        <div key={product.name} className="hero-mockup">
-                          <div className="mockup-inner">
-                            <div className="mockup-image-placeholder">
-                              <span className="mockup-placeholder-tag">Imagen</span>
-                              <span className="mockup-placeholder-name">{product.name}</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="hero-example-frame">
+                      <img
+                        src={heroExampleImage}
+                        alt="Ejemplo de producto personalizado Label77"
+                        className="hero-example-image"
+                      />
                     </div>
                   </div>
                 </div>
@@ -786,8 +780,5 @@ function App() {
 }
 
 export default App;
-
-
-
 
 

@@ -1,0 +1,38 @@
+<svg width="860" height="280" viewBox="0 0 860 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M54 62H176V72H66V214H796V72H754V62H808V224H54V62Z"
+    fill="#0E1B4D"
+  />
+  <text
+    x="182"
+    y="128"
+    fill="#0E1B4D"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="132"
+    letter-spacing="-4"
+  >
+    Label
+  </text>
+  <text
+    x="474"
+    y="122"
+    fill="#28B5CD"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="138"
+    font-weight="700"
+    letter-spacing="-11"
+  >
+    77
+  </text>
+  <text
+    x="192"
+    y="188"
+    fill="#0E1B4D"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="68"
+    font-weight="300"
+    letter-spacing="13"
+  >
+    COSTA RICA
+  </text>
+</svg>
