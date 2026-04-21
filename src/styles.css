@@ -858,6 +858,10 @@ button {
     text-align: center;
   }
 
+  .hero-visual {
+    order: -1;
+  }
+
   .hero-copy p {
     margin-inline: auto;
   }
@@ -889,26 +893,128 @@ button {
 }
 
 @media (max-width: 640px) {
+  .container {
+    width: min(calc(100% - 24px), var(--container));
+  }
+
+  .site-header {
+    background: rgba(243, 239, 230, 0.98);
+  }
+
+  .header-row {
+    min-height: 72px;
+    gap: 12px;
+  }
+
+  .brand-logo {
+    height: 36px;
+    max-width: 100%;
+  }
+
+  .mobile-nav {
+    gap: 14px;
+    padding: 14px 0 18px;
+  }
+
   .hero-section {
-    padding-top: 108px;
+    min-height: auto;
+    padding: 104px 0 48px;
+  }
+
+  .hero-grid {
+    gap: 28px;
+  }
+
+  .hero-copy {
+    gap: 18px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.5rem, 14vw, 3.6rem);
+    line-height: 0.98;
+  }
+
+  .hero-copy p,
+  .section-header p,
+  .cta-box p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .hero-card {
+    aspect-ratio: auto;
+    max-width: 100%;
+  }
+
+  .hero-card-content {
+    position: relative;
+    padding: 18px;
+  }
+
+  .hero-example-frame {
+    max-width: 100%;
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .hero-example-image {
+    border-radius: 14px;
   }
 
   .products-grid,
   .gallery-grid,
   .steps-grid,
   .delivery-grid,
-  .hero-mockup-grid,
   .product-placeholder-grid {
     grid-template-columns: 1fr;
   }
 
   .hero-actions {
     flex-direction: column;
+    gap: 12px;
   }
 
   .button-large,
   .mobile-cta {
     width: 100%;
+  }
+
+  .section {
+    padding: 64px 0;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+
+  .product-results-header,
+  .note-pill,
+  .trust-pill {
+    text-align: center;
+  }
+
+  .gallery-modal {
+    padding: 14px;
+  }
+
+  .gallery-modal-dialog {
+    width: 100%;
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  .gallery-modal-close {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .whatsapp-fab {
+    right: 16px;
+    bottom: 16px;
+    width: 54px;
+    height: 54px;
   }
 }
 
