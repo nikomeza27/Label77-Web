@@ -18,7 +18,7 @@ import {
 import headerLogo from "./assets/logo/label77-header-cropped.png";
 import heroExampleImage from "./assets/logo/WhatsApp Image 2026-04-19 at 5.14.53 PM.jpeg";
 
-const whatsappNumber = "50688888888";
+const whatsappNumber = "50660500296";
 const whatsappMessage = "Hola, quiero informacion sobre productos personalizados.";
 const imagePlaceholder = "Placeholder";
 
@@ -780,5 +780,3 @@ function App() {
 }
 
 export default App;
-
-
